@@ -1,8 +1,15 @@
-using ACME.LearningCenterPlatform.API.Profiles.Application.Internal.CommandServices;
-using ACME.LearningCenterPlatform.API.Profiles.Application.Internal.QueryServices;
-using ACME.LearningCenterPlatform.API.Profiles.Domain.Repositories;
-using ACME.LearningCenterPlatform.API.Profiles.Domain.Services;
-using ACME.LearningCenterPlatform.API.Profiles.Infrastructure.Persistence.EFC.Repositories;
+using ACME.LearningCenterPlatform.API.Discipline.Application.Internal.CommandServices;
+using ACME.LearningCenterPlatform.API.Discipline.Domain.Repositories;
+using ACME.LearningCenterPlatform.API.Discipline.Domain.Services;
+using ACME.LearningCenterPlatform.API.Discipline.Infrastructure.Persistence.EFC.Repositories;
+using ACME.LearningCenterPlatform.API.Hr.Application.Internal.CommandServices;
+using ACME.LearningCenterPlatform.API.Hr.Domain.Repositories;
+using ACME.LearningCenterPlatform.API.Hr.Domain.Services;
+using ACME.LearningCenterPlatform.API.Hr.Infrastructure.Persistence.EFC.Repositories;
+using ACME.LearningCenterPlatform.API.Kr.Application.Internal.CommandServices;
+using ACME.LearningCenterPlatform.API.Kr.Domain.Repositories;
+using ACME.LearningCenterPlatform.API.Kr.Domain.Services;
+using ACME.LearningCenterPlatform.API.Kr.Infrastructure.Persistence.EFC.Repositories;
 using ACME.LearningCenterPlatform.API.Publishing.Application.Internal.CommandServices;
 using ACME.LearningCenterPlatform.API.Publishing.Application.Internal.QueryServices;
 using ACME.LearningCenterPlatform.API.Publishing.Domain.Repositories;
@@ -12,6 +19,14 @@ using ACME.LearningCenterPlatform.API.Shared.Domain.Repositories;
 using ACME.LearningCenterPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using ACME.LearningCenterPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using ACME.LearningCenterPlatform.API.Shared.Infrastructure.Persistence.EFC.Repositories;
+using ACME.LearningCenterPlatform.API.SoccerPlayer.Application.Internal.CommandServices;
+using ACME.LearningCenterPlatform.API.SoccerPlayer.Domain.Repositories;
+using ACME.LearningCenterPlatform.API.SoccerPlayer.Domain.Services;
+using ACME.LearningCenterPlatform.API.SoccerPlayer.Infrastructure.Persistence.EFC.Repositories;
+using ACME.LearningCenterPlatform.API.Subscriptions.Application.Internal.CommandServices;
+using ACME.LearningCenterPlatform.API.Subscriptions.Domain.Repositories;
+using ACME.LearningCenterPlatform.API.Subscriptions.Domain.Services;
+using ACME.LearningCenterPlatform.API.Subscriptions.Infrastructure.Persistence.EFC.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,26 +38,18 @@ builder.Services.AddControllers(options => options.Conventions.Add(new KebabCase
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-if (connectionString == null)
-{
-    throw new InvalidOperationException("Connection string not found.");
-}
+if (connectionString == null) throw new InvalidOperationException("Connection string not found.");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     if (builder.Environment.IsDevelopment())
-    {
-
         options.UseMySQL(connectionString)
             .LogTo(Console.WriteLine, LogLevel.Information)
             .EnableSensitiveDataLogging()
             .EnableDetailedErrors();
-    }
     else if (builder.Environment.IsProduction())
-    {
         options.UseMySQL(connectionString)
             .LogTo(Console.WriteLine, LogLevel.Error);
-    }
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -62,12 +69,34 @@ builder.Services.AddScoped<ICategoryQueryService, CategoryQueryService>();
 builder.Services.AddScoped<ITutorialCommandService, TutorialCommandService>();
 builder.Services.AddScoped<ITutorialQueryService, TutorialQueryService>();
 
-// Profiles Bounded Context Dependency Injection Configuration
-builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
-builder.Services.AddScoped<IProfileCommandService, ProfileCommandService>();
-builder.Services.AddScoped<IProfileQueryService, ProfileQueryService>();
+
+builder.Services.AddScoped<ISoccerPlayerRepository, SoccerPlayerRepository>();
+builder.Services.AddScoped<ISoccerPlayerCommandService, SoccerPlayerCommandService>();
+
+builder.Services.AddScoped<IAthleticDisciplineRepository, AthleticDisciplineRepository>();
+builder.Services.AddScoped<IAthleticDisciplineCommandService, AthleticDisciplineCommandService>();
+
+
+// Plan 
+
+builder.Services.AddScoped<IPlanRepository, PlanRepository>();
+builder.Services.AddScoped<IPlanCommandService, PlanCommandService>();
+
+
+// KIINGrental
+builder.Services.AddScoped<IKingrentalRepository, KingrentalRepository>();
+builder.Services.AddScoped<IKingrentalCommandService, KingrentalCommandService>();
+
+// Hr
+
+builder.Services.AddScoped<IAppointmentsRepository, AppointmentRepository>();
+builder.Services.AddScoped<IAppointmentCommandService, AppointmentCommandService>();
 
 var app = builder.Build();
+
+
+
+
 
 // Verify if the database exists and create it if it doesn't
 using (var scope = app.Services.CreateScope())

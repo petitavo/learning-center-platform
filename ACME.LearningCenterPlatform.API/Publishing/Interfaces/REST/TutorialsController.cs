@@ -12,16 +12,18 @@ namespace ACME.LearningCenterPlatform.API.Publishing.Interfaces.REST;
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Tutorial Endpoints")]
-public class TutorialsController(ITutorialQueryService tutorialQueryService, ITutorialCommandService tutorialCommandService) : ControllerBase
+public class TutorialsController(
+    ITutorialQueryService tutorialQueryService,
+    ITutorialCommandService tutorialCommandService) : ControllerBase
 {
     /// <summary>
-    /// Get tutorial by id 
+    ///     Get tutorial by id
     /// </summary>
     /// <param name="tutorialId">
-    /// The tutorial id to get
+    ///     The tutorial id to get
     /// </param>
     /// <returns>
-    /// The <see cref="TutorialResource"/> tutorial if found, otherwise returns <see cref="NotFoundResult"/>
+    ///     The <see cref="TutorialResource" /> tutorial if found, otherwise returns <see cref="NotFoundResult" />
     /// </returns>
     [HttpGet("{tutorialId:int}")]
     [SwaggerOperation(
@@ -39,15 +41,15 @@ public class TutorialsController(ITutorialQueryService tutorialQueryService, ITu
         var tutorialResource = TutorialResourceFromEntityAssembler.ToResourceFromEntity(tutorial);
         return Ok(tutorialResource);
     }
-    
+
     /// <summary>
-    /// Create a tutorial 
+    ///     Create a tutorial
     /// </summary>
     /// <param name="resource">
-    /// The <see cref="CreateTutorialResource"/> to create the tutorial from
+    ///     The <see cref="CreateTutorialResource" /> to create the tutorial from
     /// </param>
     /// <returns>
-    /// The <see cref="TutorialResource"/> tutorial if created, otherwise returns <see cref="BadRequestResult"/>
+    ///     The <see cref="TutorialResource" /> tutorial if created, otherwise returns <see cref="BadRequestResult" />
     /// </returns>
     [HttpPost]
     [SwaggerOperation(
@@ -67,10 +69,10 @@ public class TutorialsController(ITutorialQueryService tutorialQueryService, ITu
     }
 
     /// <summary>
-    /// Get all tutorials 
+    ///     Get all tutorials
     /// </summary>
     /// <returns>
-    /// The list of <see cref="TutorialResource"/> tutorials
+    ///     The list of <see cref="TutorialResource" /> tutorials
     /// </returns>
     [HttpGet]
     [SwaggerOperation(
@@ -78,7 +80,8 @@ public class TutorialsController(ITutorialQueryService tutorialQueryService, ITu
         Description = "Get all tutorials",
         OperationId = "GetAllTutorials"
     )]
-    [SwaggerResponse(StatusCodes.Status200OK, "The tutorials were successfully retrieved", typeof(IEnumerable<TutorialResource>))]
+    [SwaggerResponse(StatusCodes.Status200OK, "The tutorials were successfully retrieved",
+        typeof(IEnumerable<TutorialResource>))]
     public async Task<IActionResult> GetAllTutorials()
     {
         var getAllTutorialsQuery = new GetAllTutorialsQuery();
@@ -86,18 +89,19 @@ public class TutorialsController(ITutorialQueryService tutorialQueryService, ITu
         var tutorialResources = tutorials.Select(TutorialResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(tutorialResources);
     }
-    
+
     /// <summary>
-    /// Add a video to a tutorial 
+    ///     Add a video to a tutorial
     /// </summary>
     /// <param name="resource">
-    /// The <see cref="AddVideoAssetToTutorialResource"/> to add the video to the tutorial from
+    ///     The <see cref="AddVideoAssetToTutorialResource" /> to add the video to the tutorial from
     /// </param>
     /// <param name="tutorialId">
-    /// The tutorial id to add the video to
+    ///     The tutorial id to add the video to
     /// </param>
     /// <returns>
-    /// The <see cref="TutorialResource"/> tutorial if the video was added, otherwise returns <see cref="BadRequestResult"/>
+    ///     The <see cref="TutorialResource" /> tutorial if the video was added, otherwise returns
+    ///     <see cref="BadRequestResult" />
     /// </returns>
     [HttpPost("{tutorialId:int}/videos")]
     [SwaggerOperation(
@@ -105,16 +109,17 @@ public class TutorialsController(ITutorialQueryService tutorialQueryService, ITu
         Description = "Add a video to a tutorial",
         OperationId = "AddVideoToTutorial"
     )]
-    [SwaggerResponse(StatusCodes.Status201Created, "The video was successfully added to the tutorial", typeof(TutorialResource))]
+    [SwaggerResponse(StatusCodes.Status201Created, "The video was successfully added to the tutorial",
+        typeof(TutorialResource))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The video was not added to the tutorial")]
     public async Task<IActionResult> AddVideoToTutorial([FromBody] AddVideoAssetToTutorialResource resource,
         [FromRoute] int tutorialId)
     {
-        var addVideoAssetToTutorialCommand = AddVideoAssetToTutorialCommandFromResourceAssembler.ToCommandFromResource(resource, tutorialId);
+        var addVideoAssetToTutorialCommand =
+            AddVideoAssetToTutorialCommandFromResourceAssembler.ToCommandFromResource(resource, tutorialId);
         var tutorial = await tutorialCommandService.Handle(addVideoAssetToTutorialCommand);
         if (tutorial is null) return BadRequest();
         var tutorialResource = TutorialResourceFromEntityAssembler.ToResourceFromEntity(tutorial);
         return CreatedAtAction(nameof(GetTutorialById), new { tutorialId = tutorial.Id }, tutorialResource);
     }
-    
 }

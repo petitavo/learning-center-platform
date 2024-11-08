@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore;
 namespace ACME.LearningCenterPlatform.API.Publishing.Infrastructure.Persistence.EFC.Repositories;
 
 /// <summary>
-/// Represents the tutorial repository in the ACME Learning Center Platform. 
+///     Represents the tutorial repository in the ACME Learning Center Platform.
 /// </summary>
 /// <param name="context">
-/// The <see cref="AppDbContext"/> to use.
+///     The <see cref="AppDbContext" /> to use.
 /// </param>
 public class TutorialRepository(AppDbContext context) : BaseRepository<Tutorial>(context), ITutorialRepository
 {
@@ -38,7 +38,7 @@ public class TutorialRepository(AppDbContext context) : BaseRepository<Tutorial>
             .Include(tutorial => tutorial.Category)
             .ToListAsync();
     }
-    
+
     // inheritedDoc
     public async Task<bool> ExistsByTitleAsync(string title)
     {

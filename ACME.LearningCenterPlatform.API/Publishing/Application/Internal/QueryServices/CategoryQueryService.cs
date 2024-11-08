@@ -6,12 +6,12 @@ using ACME.LearningCenterPlatform.API.Publishing.Domain.Services;
 namespace ACME.LearningCenterPlatform.API.Publishing.Application.Internal.QueryServices;
 
 /// <summary>
-/// Category query service 
+///     Category query service
 /// </summary>
 /// <param name="categoryRepository">
-/// The category repository
+///     The category repository
 /// </param>
-public class CategoryQueryService(ICategoryRepository categoryRepository): ICategoryQueryService
+public class CategoryQueryService(ICategoryRepository categoryRepository) : ICategoryQueryService
 {
     /// <inheritdoc />
     public async Task<Category?> Handle(GetCategoryByIdQuery query)

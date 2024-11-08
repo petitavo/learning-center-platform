@@ -7,20 +7,20 @@ using ACME.LearningCenterPlatform.API.Shared.Domain.Repositories;
 namespace ACME.LearningCenterPlatform.API.Publishing.Application.Internal.CommandServices;
 
 /// <summary>
-/// Represents a tutorial command service for Tutorial entities 
+///     Represents a tutorial command service for Tutorial entities
 /// </summary>
 /// <param name="categoryRepository">
-/// The repository for category entities
+///     The repository for category entities
 /// </param>
 /// <param name="tutorialRepository">
-/// The repository for tutorial entities
+///     The repository for tutorial entities
 /// </param>
 /// <param name="unitOfWork">
-/// The unit of work for the repository
+///     The unit of work for the repository
 /// </param>
 public class TutorialCommandService(
     ICategoryRepository categoryRepository,
-    ITutorialRepository tutorialRepository, 
+    ITutorialRepository tutorialRepository,
     IUnitOfWork unitOfWork) : ITutorialCommandService
 {
     /// <inheritdoc />

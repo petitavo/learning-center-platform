@@ -9,29 +9,30 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace ACME.LearningCenterPlatform.API.Publishing.Interfaces.REST;
 
 /// <summary>
-/// Controller for managing categories. 
+///     Controller for managing categories.
 /// </summary>
 /// <param name="categoryCommandService">
-/// The <see cref="ICategoryCommandService"/> command service for categories
+///     The <see cref="ICategoryCommandService" /> command service for categories
 /// </param>
 /// <param name="categoryQueryService">
-/// The <see cref="ICategoryQueryService"/> query service for categories
+///     The <see cref="ICategoryQueryService" /> query service for categories
 /// </param>
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Category Endpoints")]
-public class CategoriesController(ICategoryCommandService categoryCommandService, ICategoryQueryService categoryQueryService) : ControllerBase
+public class CategoriesController(
+    ICategoryCommandService categoryCommandService,
+    ICategoryQueryService categoryQueryService) : ControllerBase
 {
-
     /// <summary>
-    /// Get a category by its unique identifier. 
+    ///     Get a category by its unique identifier.
     /// </summary>
     /// <param name="categoryId">
-    /// The unique identifier of the category to get
+    ///     The unique identifier of the category to get
     /// </param>
     /// <returns>
-    /// The <see cref="CategoryResource"/> category if found, otherwise returns <see cref="NotFoundResult"/>
+    ///     The <see cref="CategoryResource" /> category if found, otherwise returns <see cref="NotFoundResult" />
     /// </returns>
     [HttpGet("{categoryId:int}")]
     [SwaggerOperation(
@@ -50,13 +51,13 @@ public class CategoriesController(ICategoryCommandService categoryCommandService
     }
 
     /// <summary>
-    /// Create a new category. 
+    ///     Create a new category.
     /// </summary>
     /// <param name="resource">
-    /// The <see cref="CreateCategoryResource"/> to create the category from
+    ///     The <see cref="CreateCategoryResource" /> to create the category from
     /// </param>
     /// <returns>
-    /// The <see cref="CategoryResource"/> category if created, otherwise returns <see cref="BadRequestResult"/>
+    ///     The <see cref="CategoryResource" /> category if created, otherwise returns <see cref="BadRequestResult" />
     /// </returns>
     [HttpPost]
     [SwaggerOperation(
@@ -73,12 +74,12 @@ public class CategoriesController(ICategoryCommandService categoryCommandService
         var categoryResource = CategoryResourceFromEntityAssembler.ToResourceFromEntity(category);
         return CreatedAtAction(nameof(GetCategoryById), new { categoryId = category.Id }, categoryResource);
     }
-    
+
     /// <summary>
-    /// Get all categories. 
+    ///     Get all categories.
     /// </summary>
     /// <returns>
-    /// The list of <see cref="CategoryResource"/> categories
+    ///     The list of <see cref="CategoryResource" /> categories
     /// </returns>
     [HttpGet]
     [SwaggerOperation(

@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace ACME.LearningCenterPlatform.API.Publishing.Interfaces.REST;
 
 /// <summary>
-/// Controller for managing tutorials by category. 
+///     Controller for managing tutorials by category.
 /// </summary>
 /// <param name="tutorialQueryService"></param>
 [ApiController]
@@ -19,13 +19,13 @@ namespace ACME.LearningCenterPlatform.API.Publishing.Interfaces.REST;
 public class CategoryTutorialsController(ITutorialQueryService tutorialQueryService) : ControllerBase
 {
     /// <summary>
-    /// Get all tutorials by category 
+    ///     Get all tutorials by category
     /// </summary>
     /// <param name="categoryId">
-    /// The category id to get tutorials for
+    ///     The category id to get tutorials for
     /// </param>
     /// <returns>
-    /// The tutorials for the category
+    ///     The tutorials for the category
     /// </returns>
     [HttpGet]
     [SwaggerOperation(
@@ -41,5 +41,4 @@ public class CategoryTutorialsController(ITutorialQueryService tutorialQueryServ
         var tutorialResources = tutorials.Select(TutorialResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(tutorialResources);
     }
-    
 }

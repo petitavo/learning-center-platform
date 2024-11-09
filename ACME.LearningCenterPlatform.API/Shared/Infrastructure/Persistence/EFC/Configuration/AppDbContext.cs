@@ -1,3 +1,4 @@
+using ACME.LearningCenterPlatform.API.CRM.Domain.Model.Aggregate;
 using ACME.LearningCenterPlatform.API.Discipline.Domain.Model.Aggregate;
 using ACME.LearningCenterPlatform.API.Discipline.Domain.Model.Entities;
 using ACME.LearningCenterPlatform.API.Hr.Domain.Model.Aggregate;
@@ -132,7 +133,24 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<Kingrentals>().Property(k => k.ResumeUrl).IsRequired();
         builder.Entity<Kingrentals>().Property(k => k.DesiredJobTitle).IsRequired();
         
-
+//id (int, 
+        //   obligatorio, autogenerado, llave primaria), VeterinaryCampaignManagerId(string, obligatorio, 
+        //   autogenerado, Guid único), firstName (string, obligatorio, entre 4 y 40 caracteres), lastName 
+        //   (string, obligatorio, entre 4 y 40 caracteres), status (int, obligatorio, restringido por 
+        //EManagerStatus), assignedSalesAgentId (int, no obligatorio), contactedAt (Date, no 
+        //obligatorio), approvedAt (Date, no obligatorio), reportedAt (Date, no obligatorio) . 
+      
+        builder.Entity<Manager>().HasKey(a => a.Id);
+        builder.Entity<Manager>().Property(a => a.Id).ValueGeneratedOnAdd();
+      
+        builder.Entity<Manager>().Property(a => a.VeterinaryCampaignManagerId).IsRequired().HasMaxLength(120);
+        builder.Entity<Manager>().Property(a => a.FirstName).IsRequired().HasMaxLength(40);
+        builder.Entity<Manager>().Property(a => a.LastName).IsRequired().HasMaxLength(40);
+        builder.Entity<Manager>().Property(a => a.Status).IsRequired();
+        builder.Entity<Manager>().Property(a => a.AssignedSalesAgentId);
+        builder.Entity<Manager>().Property(a => a.ContactedAt);
+        builder.Entity<Manager>().Property(a => a.ApprovedAt);
+        builder.Entity<Manager>().Property(a => a.ReportedAt);
 
         // Publishing Context
         builder.Entity<Category>().HasKey(c => c.Id);

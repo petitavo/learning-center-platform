@@ -7,6 +7,7 @@ public static class AppointmentResourceFromEntityAssembler
 {
     public static AppointmentResource ToResourceFromEntity(Appointments entity)
     {
-        return new AppointmentResource(entity.Id, entity.DoctorName, entity.PatientName, entity.Email,entity.Specialty, entity.Date, entity.Time);
+        return new AppointmentResource(entity.Id, entity.DoctorName, entity.PatientName, entity.Email,
+            entity.Specialty.ToString(), entity.Date, entity.Time);
     }
 }

@@ -10,8 +10,8 @@ public partial class Appointments
     public string PatientName { get; set; }
     public string DoctorName { get; set; }
     public string Email { get; set; }
-    public ESpecialty Specialty { get; set; }
-    public DateTime Date { get; set; }
+    public ESpecialty? Specialty { get; set; }
+    public DateTime?Date { get; set; }
     public string Time { get; set; }
 
     protected Appointments()
@@ -19,9 +19,10 @@ public partial class Appointments
         PatientName = string.Empty;
         DoctorName = string.Empty;
         Email = string.Empty;
-        Enum.Parse<EPosition>(string.Empty, true);
-        Date = DateTime.MinValue;
+        Specialty = null;
+        Date = null;
         Time = string.Empty;
+        
     }
 
     public Appointments(CreateAppointmentsCommand command)
@@ -29,8 +30,21 @@ public partial class Appointments
         PatientName = command.PatientName;
         DoctorName = command.DoctorName;
         Email = command.Email;
-        Specialty = command.Specialty;
+        Specialty = Enum.Parse<ESpecialty>(command.Specialty);
         Date = command.Date;
         Time = command.Time;
+    }
+    
+    // crea un bool cuando speciality no sea valido
+    public bool IsValidSpecialty(string status)
+    {
+        foreach (ESpecialty eStatus in Enum.GetValues(typeof(ESpecialty)))
+        {
+            if (eStatus.ToString().Equals(status))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

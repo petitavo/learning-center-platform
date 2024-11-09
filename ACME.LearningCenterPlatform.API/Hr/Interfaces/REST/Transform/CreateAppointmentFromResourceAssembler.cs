@@ -13,7 +13,7 @@ public static class CreateAppointmentFromResourceAssembler
             resource.DoctorName,
             resource.PatientName,
             resource.Email,
-            Enum.Parse<ESpecialty>(resource.Specialty, true),
+            Enum.Parse<ESpecialty>(resource.Specialty.ToString(), true),
             resource.Date,
             resource.Time);
             

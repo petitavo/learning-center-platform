@@ -10,7 +10,7 @@ public class AppointmentCommandService(
     IAppointmentsRepository appointmentsRepository,
     IUnitOfWork unitOfWork) : IAppointmentCommandService
     
-{
+{   
     public async Task<Appointments> Handle(CreateAppointmentsCommand command)
     {
         if(await appointmentsRepository.ExistsByDoctorNameAndEmailAndDateAndTimeAsync(command.DoctorName, command.Email, command.Date, command.Time))
@@ -20,4 +20,7 @@ public class AppointmentCommandService(
         await unitOfWork.CompleteAsync();
         return appointment;
     }
+  
+    
+    
 }

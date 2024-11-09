@@ -1,5 +1,6 @@
 using ACME.LearningCenterPlatform.API.Hr.Domain.Model.Commands;
 using ACME.LearningCenterPlatform.API.Hr.Domain.Model.ValueObjects;
+using ACME.LearningCenterPlatform.API.SoccerPlayer.Domain.Model.ValueObjects;
 
 namespace ACME.LearningCenterPlatform.API.Hr.Domain.Model.Aggregate;
 
@@ -18,7 +19,7 @@ public partial class Appointments
         PatientName = string.Empty;
         DoctorName = string.Empty;
         Email = string.Empty;
-        Specialty = ESpecialty.GeneralMedicine;
+        Enum.Parse<EPosition>(string.Empty, true);
         Date = DateTime.MinValue;
         Time = string.Empty;
     }

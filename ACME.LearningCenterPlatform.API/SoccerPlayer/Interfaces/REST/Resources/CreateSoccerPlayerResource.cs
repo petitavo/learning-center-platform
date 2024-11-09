@@ -6,5 +6,5 @@ namespace ACME.LearningCenterPlatform.API.SoccerPlayer.Interfaces.REST.Resources
 public record CreateSoccerPlayerResource(
     string Name,
     int Country,
-    [EnumDataType(typeof(EPosition))] string Position,
+    string Position,
     DateTime BirthDate);
